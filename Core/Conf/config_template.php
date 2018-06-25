@@ -19,4 +19,4 @@ $CONFIG = array(
         'database' => 'db_name1', #必选
     )
 );
-define('CONFIG', $CONFIG);
+define('CONFIG', serialize($CONFIG));

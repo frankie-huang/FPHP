@@ -70,31 +70,28 @@ class PDOMySQL
             $this->init($ConfigID, $dbtable);
             return true;
         }
+        $CONFIG = unserialize(CONFIG);
         # 以下为数据库配置还未被存在self::$configs中时
         if ($dbConfig == null) {
-            if (!defined('CONFIG')) {
-                $this->throw_exception("配置文件未定义CONFIG", true);
-                return false;
-            }
             # 检查配置文件中是否有对应的配置信息
-            if (!isset(CONFIG[$ConfigID])) {
+            if (!isset($CONFIG[$ConfigID])) {
                 $this->throw_exception("配置文件中无" . $ConfigID . "的配置信息", true);
                 return false;
             }
             # 使用配置文件中对应的配置
             if ($ConfigID === 0) {
-                $dbConfig = CONFIG[0];
+                $dbConfig = $CONFIG[0];
             } else {
-                $default_dbConfig = CONFIG[0];
-                $dbConfig = array_merge($default_dbConfig, CONFIG[$ConfigID]);
+                $default_dbConfig = $CONFIG[0];
+                $dbConfig = array_merge($default_dbConfig, $CONFIG[$ConfigID]);
             }
         }
         if (isset($dbConfig['DB_DEBUG']) && $dbConfig['DB_DEBUG'] === true) {
             $this->dbdebug = true;
         }
         if (empty($dbConfig['password'])) {
-            if (isset(CONFIG[0]['password'])) {
-                $dbConfig['password'] = CONFIG[0]['password'];
+            if (isset($CONFIG[0]['password'])) {
+                $dbConfig['password'] = $CONFIG[0]['password'];
             } else {
                 $this->throw_exception('数据库未设置密码');
                 return false;
