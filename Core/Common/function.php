@@ -1,16 +1,22 @@
 <?php
 
-//M函数
+/**
+ * M函数
+ * 用于初始化一个数据库连接
+ * @param string $dbtable 数据表名
+ * @param int $ConfigID 数据库配置的索引，用于指定配置文件中对应的数据库配置
+ * @param mixed $dbConfig 数据库配置，用于自定义数据库配置
+ */
 function M($dbtable, $ConfigID = 0, $dbConfig = null)
 {
     return new Core\lib\PDOMySQL($dbtable, $ConfigID, $dbConfig);
 }
 
-function filter(&$value)
-{
-    $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-}
-//I函数，参数为字符串
+/**
+ * I函数
+ * 暂时仅支持GET和POST
+ * @param string $str
+ */
 function I($str)
 {
     $pos = strrpos($str, '.', -1);
@@ -44,7 +50,9 @@ function I($str)
             return false;
     }
     if (is_array($result_set)) {
-        array_walk_recursive($result_set, "filter");
+        array_walk_recursive($result_set, function (&$value) {
+            $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+        });
     }
     return $result_set;
 }
@@ -130,6 +138,12 @@ function dump($var, $echo = true, $label = null, $strict = true)
     }
 }
 
+/**
+ * 打印错误信息
+ * @param string $errMsg 详细错误信息
+ * @param boolean $debug_mode 是否DEBUG模式
+ * @return void
+ */
 function printError($errMsg, $debug_mode = true)
 {
     if ($debug_mode && DEBUG) {
