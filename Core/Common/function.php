@@ -130,9 +130,9 @@ function dump($var, $echo = true, $label = null, $strict = true)
     }
 }
 
-function printError($debug_mode = true)
+function printError($errMsg, $debug_mode = true)
 {
-    if ($debug_mode) {
+    if ($debug_mode && DEBUG) {
         $bt = debug_backtrace();
         $caller = array_shift($bt);
 

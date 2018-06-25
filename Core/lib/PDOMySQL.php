@@ -1816,9 +1816,9 @@ class PDOMySQL
     public function throw_exception($errMsg, $ignore_debug = false, $exit = true)
     {
         if ($this->dbdebug || $ignore_debug) {
-            printError();
+            printError($errMsg, true);
         } else {
-            printError(false);
+            printError($errMsg, false);
         }
         if ($exit) {
             exit(0);
