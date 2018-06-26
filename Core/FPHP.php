@@ -13,12 +13,13 @@ class FPHP
 
         // 处理PATH_INFO，加载对应模块-控制器-操作
         if (!isset($_SERVER['PATH_INFO']) || empty($_SERVER['PATH_INFO']) || $_SERVER['PATH_INFO'] == '/') {
-            $match = array(
-                '/Home/Index/index',
-                'Home',
-                'Index',
-                'index',
-            );
+            // $match = array(
+            //     '/Home/Index/index',
+            //     'Home',
+            //     'Index',
+            //     'index',
+            // );
+            header("Location: ./Home/Index/index"); 
         } else {
             $PATH_INFO = $_SERVER['PATH_INFO'];
             $count = preg_match('/\/(\w+)\/(\w+)\/(\w+)/', $PATH_INFO, $match);
@@ -28,8 +29,16 @@ class FPHP
             }
         }
 		$action = $match[3];
-		$class = '\App\\' . $match[1] . '\Controller\\' . $match[2];
+        $class = '\App\\' . $match[1] . '\Controller\\' . $match[2];
+        if (!class_exists($class)) {
+            printError('无法加载控制器: ' . $match[2]);
+            return false;
+        }
         $Controller = new $class($match[2], $match[3]);
+        if (!method_exists($Controller, $action)) {
+            printError('非法操作: ' . $action);
+            return false;
+        }
         $Controller->$action();
     }
 
