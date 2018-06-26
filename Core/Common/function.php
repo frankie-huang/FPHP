@@ -1,6 +1,14 @@
 <?php
 
 /**
+ * C函数，用于读取框架配置
+ * @param string 配置信息对应的键名
+ */
+function C($key) {
+    return $GLOBALS['config'][$key];
+}
+
+/**
  * M函数
  * 用于初始化一个数据库连接
  * @param string $dbtable 数据表名

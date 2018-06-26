@@ -70,7 +70,7 @@ class PDOMySQL
             $this->init($ConfigID, $dbtable);
             return true;
         }
-        $CONFIG = unserialize(CONFIG);
+        $CONFIG = C('DB_CONFIG');
         # 以下为数据库配置还未被存在self::$configs中时
         if ($dbConfig == null) {
             # 检查配置文件中是否有对应的配置信息

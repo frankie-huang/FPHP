@@ -11,9 +11,6 @@ class FPHP
         // 当调用未定义的类的时候自动加载该类
         spl_autoload_register("Core\FPHP::load");
 
-        // 加载配置文件
-        include "Conf/config.php";
-
         // 处理PATH_INFO，加载对应模块-控制器-操作
         if (!isset($_SERVER['PATH_INFO']) || empty($_SERVER['PATH_INFO']) || $_SERVER['PATH_INFO'] == '/') {
             $match = array(
