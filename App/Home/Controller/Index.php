@@ -6,7 +6,6 @@ class Index extends Controller
 {
     public function index()
     {
-        $db = M('test');
-        dump($db->select());
+        $this->view->display();
     }
 }

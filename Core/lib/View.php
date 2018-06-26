@@ -70,5 +70,35 @@ class View
         extract($this->tVar);
         $file_name = './App/Home/View/' . $this->_controller . '/' . $this->_action . '.html';
         include $file_name;
+        // $file = fopen($file_name, 'r');
+        // $content = fread($file, filesize($file_name));
+        // fclose($file);
+        // $this->render($content);
+    }
+
+    /**
+     * 输出内容文本可以包括Html
+     * @access private
+     * @param string $content 输出内容
+     * @param string $charset 模板输出字符集
+     * @param string $contentType 输出类型
+     * @return mixed
+     */
+    private function render($content, $charset = '', $contentType = '')
+    {
+        if (empty($charset)) {
+            $charset = 'UTF-8';
+        }
+
+        if (empty($contentType)) {
+            $contentType = 'text/html';
+        }
+
+        // 网页字符编码
+        header('Content-Type:' . $contentType . '; charset=' . $charset);
+        header('Cache-control: private'); // 页面缓存控制
+        header('X-Powered-By:FPHP');
+        // 输出模板文件
+        echo $content;
     }
 }
