@@ -6,7 +6,6 @@
  * @link https://github.com/frankie-huang/FPHP
  */
 
-
 // 定义当前框架所在的根目录
 define("FPHP", realpath("./"));
 
@@ -29,12 +28,12 @@ if (DEBUG) {
 }
 
 // 加载配置文件
-$GLOBALS['config'] = require(CORE . "/Conf/config.php");
+$GLOBALS['config'] = require CORE . "/Conf/config.php";
 
 // 加载函数库
-require(CORE . "/Common/function.php");
+require CORE . "/Common/function.php";
 
 // 加载框架的核心文件
-require(CORE . "/FPHP.php");
+require CORE . "/FPHP.php";
 
 Core\FPHP::run();

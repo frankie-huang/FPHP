@@ -27,10 +27,10 @@ class FPHP
                 return false;
             }
         }
-        $class = '\App\\' . $match[1] . '\Controller\\' . $match[2];
-        $operation = $match[3];
-        $Controller = new $class();
-        $Controller->$operation();
+		$action = $match[3];
+		$class = '\App\\' . $match[1] . '\Controller\\' . $match[2];
+        $Controller = new $class($match[2], $match[3]);
+        $Controller->$action();
     }
 
     /**
