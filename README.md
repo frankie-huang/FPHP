@@ -1,9 +1,13 @@
 # FPHP
-Frankie的MVC框架
+Frankie的MVC框架（重度阉割版MVC框架，仅写于自用。他人慎用，后果自负2333）
 
 
 
-## 部署
+## 一. 部署
+
+### 配置文件
+
+将Core/Conf/config_template.php重命名为config.php，并将里面的配置信息自行填写。
 
 ### 隐藏URL里的入口文件index.php
 
@@ -44,3 +48,14 @@ location /youdomain/ {
     }
 }
 ```
+
+
+## 二. 使用
+
+支持C函数读取配置
+
+支持I函数读取GET和POST数据
+
+支持M函数初始化数据库连接
+
+支持$this->view->display()加载前端页面
