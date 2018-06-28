@@ -7,6 +7,11 @@ namespace Core\lib;
 class View
 {
     /**
+     * 当前模块名称
+     */
+    protected $_module = '';
+
+    /**
      * 当前控制器名称
      */
     protected $_controller = '';
@@ -26,8 +31,9 @@ class View
     /**
      * 构造函数
      */
-    public function __construct($controller, $action)
+    public function __construct($module, $controller, $action)
     {
+        $this->_module = $module;
         $this->_controller = $controller;
         $this->_action = $action;
     }
@@ -68,7 +74,7 @@ class View
     public function display()
     {
         extract($this->tVar);
-        $file_name = './App/Home/View/' . $this->_controller . '/' . $this->_action . '.html';
+        $file_name = './App/' . $this->_module . '/View/' . $this->_controller . '/' . $this->_action . '.html';
         include $file_name;
         // $file = fopen($file_name, 'r');
         // $content = fread($file, filesize($file_name));

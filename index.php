@@ -15,6 +15,9 @@ define("CORE", FPHP . "/Core");
 // 定义项目文件的所处目录
 define("APP", FPHP . "/App");
 
+// 定义默认模块
+define("DEFAULT_MODULE", "Home");
+
 // 定义是否开启调试模式
 define("DEBUG", true);
 
