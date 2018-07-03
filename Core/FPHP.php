@@ -19,10 +19,10 @@ class FPHP
         $URL_prefix_length = strlen($_SERVER['SCRIPT_NAME']) - 9;
         if (!isset($_SERVER['PATH_INFO']) || empty($_SERVER['PATH_INFO'])) {
             if (strlen($_SERVER['REQUEST_URI']) <= $URL_prefix_length) {
-                $_SERVER['PATH_INFO'] = '';
+                $_SERVER['PATH_INFO'] = '/';
             } else {
                 $_SERVER['PATH_INFO'] = substr($_SERVER['REQUEST_URI'], $URL_prefix_length - 1);
-                preg_match('/[\w|\/]*/', $_SERVER['PATH_INFO'], $match);
+                preg_match('/[^?#]*/', $_SERVER['PATH_INFO'], $match); // 截取 ? 和 # 号之前的字符串
                 $_SERVER['PATH_INFO'] = $match[0];
             }
         }
@@ -38,7 +38,7 @@ class FPHP
             header("Location: ./" . DEFAULT_MODULE . "/Index/index"); 
         } else {
             $PATH_INFO = $_SERVER['PATH_INFO'];
-            $count = preg_match('/\/(\w+)\/(\w+)\/(\w+)(.*)/', $PATH_INFO, $match);
+            $count = preg_match('/\/(\w+)\/(\w+)\/(\w+)\/(.*)/', $PATH_INFO, $match);
             if ($count != 1) {
                 printError('URL格式：/模块/控制器/操作，示例：/' . DEFAULT_MODULE . '/Index/index');
                 return false;
@@ -53,8 +53,8 @@ class FPHP
         if ($match[4] == '' || $match[4] == '/') {
             $Controller = new $class($match[1], $match[2], $match[3]);
         } else {
-            preg_match_all('/\/(\w*)/', $match[4], $param);
-            $Controller = new $class($match[1], $match[2], $match[3], $param[1]);
+            $params = explode('/', $match[4]);
+            $Controller = new $class($match[1], $match[2], $match[3], $params);
         }
         if (!method_exists($Controller, $action)) {
             printError('非法操作: ' . $action);
