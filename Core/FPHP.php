@@ -38,7 +38,7 @@ class FPHP
             header("Location: ./" . DEFAULT_MODULE . "/Index/index"); 
         } else {
             $PATH_INFO = $_SERVER['PATH_INFO'];
-            $count = preg_match('/\/(\w+)\/(\w+)\/(\w+)\/(.*)/', $PATH_INFO, $match);
+            $count = preg_match('/\/(\w+)\/(\w+)\/(\w+)(.*)/', $PATH_INFO, $match);
             if ($count != 1) {
                 printError('URL格式：/模块/控制器/操作，示例：/' . DEFAULT_MODULE . '/Index/index');
                 return false;
@@ -53,6 +53,7 @@ class FPHP
         if ($match[4] == '' || $match[4] == '/') {
             $Controller = new $class($match[1], $match[2], $match[3]);
         } else {
+            $match[4] = substr($match[4], 1);
             $params = explode('/', $match[4]);
             $Controller = new $class($match[1], $match[2], $match[3], $params);
         }
