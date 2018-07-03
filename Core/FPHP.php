@@ -11,17 +11,24 @@ class FPHP
         // 当调用未定义的类的时候自动加载该类
         spl_autoload_register("Core\FPHP::load");
 
+        /**
+         * 此处是针对nginx不支持PATH_INFO的处理
+         * 当PATH_INFO读取不到的时候使用$_SERVER['REQUEST_URI']截取获得
+         * $_SERVER['REQUEST_URI']后面会带query_string需要去除
+         */
         $URL_prefix_length = strlen($_SERVER['SCRIPT_NAME']) - 9;
         if (!isset($_SERVER['PATH_INFO']) || empty($_SERVER['PATH_INFO'])) {
             if (strlen($_SERVER['REQUEST_URI']) <= $URL_prefix_length) {
                 $_SERVER['PATH_INFO'] = '';
             } else {
                 $_SERVER['PATH_INFO'] = substr($_SERVER['REQUEST_URI'], $URL_prefix_length - 1);
+                preg_match('/[\w|\/]*/', $_SERVER['PATH_INFO'], $match);
+                $_SERVER['PATH_INFO'] = $match[0];
             }
         }
 
         // 处理PATH_INFO，加载对应模块-控制器-操作
-        if (!isset($_SERVER['PATH_INFO']) || empty($_SERVER['PATH_INFO']) || $_SERVER['PATH_INFO'] == '/') {
+        if ($_SERVER['PATH_INFO'] == '/') {
             // $match = array(
             //     '/Home/Index/index',
             //     'Home',
@@ -46,7 +53,7 @@ class FPHP
         if ($match[4] == '' || $match[4] == '/') {
             $Controller = new $class($match[1], $match[2], $match[3]);
         } else {
-            preg_match_all('/\/(\w+)/', $match[4], $param);
+            preg_match_all('/\/(\w*)/', $match[4], $param);
             $Controller = new $class($match[1], $match[2], $match[3], $param[1]);
         }
         if (!method_exists($Controller, $action)) {
