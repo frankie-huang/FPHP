@@ -48,6 +48,7 @@ class FPHP
         $class = '\App\\' . $match[1] . '\Controller\\' . $match[2];
         if (!class_exists($class)) {
             printError('无法加载控制器: ' . $match[2]);
+            http_response_code(404);
             return false;
         }
         if ($match[4] == '' || $match[4] == '/') {
@@ -59,6 +60,7 @@ class FPHP
         }
         if (!method_exists($Controller, $action)) {
             printError('非法操作: ' . $action);
+            http_response_code(404);
             return false;
         }
         $Controller->$action();
