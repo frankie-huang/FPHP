@@ -176,7 +176,7 @@ class PDOMySQL
      */
     private function in_db($dbtable)
     {
-        $stmt = $this->link->query("show tables");
+        $stmt = $this->link->query("SHOW TABLES");
         foreach ($stmt as $row) {
             if ($dbtable == $row[0]) {
                 return true;
@@ -1767,7 +1767,7 @@ class PDOMySQL
      */
     private function clearSubString()
     {
-        $this->SQLerror = null;
+        // $this->SQLerror = null;
         $this->fieldString = '';
         $this->joinString = '';
         $this->whereString = '';
@@ -1801,6 +1801,18 @@ class PDOMySQL
             return false;
         }
         return true;
+    }
+
+    /**
+     * 直接获取SQL错误信息
+     */
+    public function getSQLError()
+    {
+        if ($this->dbdebug) {
+            return $this->SQLerror['msg'];
+        } else {
+            return '没有开启Debug模式';
+        }
     }
 
     /**
