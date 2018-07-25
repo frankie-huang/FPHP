@@ -677,7 +677,7 @@ class PDOMySQL
     {
         $sqlString = '';
         if ($this->tmp_table != '') {
-            $table_name = $this->tmp_table . $this->aliasString;
+            $table_name = $this->addSpecialChar_for_pure_string($this->tmp_table) . $this->aliasString;
         } else {
             $table_name = '`' . $this->table . '`' . $this->aliasString;
         }
@@ -698,7 +698,7 @@ class PDOMySQL
     {
         $sqlString = '';
         if ($this->tmp_table != '') {
-            $table_name = $this->tmp_table . $this->aliasString;
+            $table_name = $this->addSpecialChar_for_pure_string($this->tmp_table) . $this->aliasString;
         } else {
             $table_name = '`' . $this->table . '`' . $this->aliasString;
         }
@@ -724,7 +724,7 @@ class PDOMySQL
     {
         $sqlString = '';
         if ($this->tmp_table != '') {
-            $table_name = $this->tmp_table . $this->aliasString;
+            $table_name = $this->addSpecialChar_for_pure_string($this->tmp_table) . $this->aliasString;
         } else {
             $table_name = '`' . $this->table . '`' . $this->aliasString;
         }
@@ -769,7 +769,7 @@ class PDOMySQL
             $placeholder = '';
         }
         if ($this->tmp_table != '') {
-            $table_name = $this->tmp_table;
+            $table_name = $this->addSpecialChar_for_pure_string($this->tmp_table);
         } else {
             $table_name = '`' . $this->table . '`';
         }
@@ -843,7 +843,7 @@ class PDOMySQL
             }
         }
         if ($this->tmp_table != '') {
-            $table_name = $this->tmp_table;
+            $table_name = $this->addSpecialChar_for_pure_string($this->tmp_table);
         } else {
             $table_name = '`' . $this->table . '`';
         }
@@ -943,7 +943,7 @@ class PDOMySQL
         }
         $this->whereValueArray = array_merge($updateValueArray, $this->whereValueArray);
         if ($this->tmp_table != '') {
-            $table_name = $this->tmp_table . $this->aliasString;
+            $table_name = $this->addSpecialChar_for_pure_string($this->tmp_table) . $this->aliasString;
         } else {
             $table_name = '`' . $this->table . '`' . $this->aliasString;
         }
@@ -1039,7 +1039,7 @@ class PDOMySQL
         $setFieldStr = rtrim($setFieldStr, ',');
         $this->whereValueArray = array_merge($updateValueArray, $this->whereValueArray);
         if ($this->tmp_table != '') {
-            $table_name = $this->tmp_table . $this->aliasString;
+            $table_name = $this->addSpecialChar_for_pure_string($this->tmp_table) . $this->aliasString;
         } else {
             $table_name = '`' . $this->table . '`' . $this->aliasString;
         }
@@ -1057,7 +1057,7 @@ class PDOMySQL
     {
         $sqlString = '';
         if ($this->tmp_table != '') {
-            $table_name = $this->tmp_table . $this->aliasString;
+            $table_name = $this->addSpecialChar_for_pure_string($this->tmp_table) . $this->aliasString;
         } else {
             $table_name = '`' . $this->table . '`' . $this->aliasString;
         }
@@ -1705,6 +1705,17 @@ class PDOMySQL
             if (0 === preg_match('/\W+/', $value)) {
                 $value = '`' . $value . '`';
             }
+        }
+        return $value;
+    }
+
+    /**
+     * 对于纯字母或数字或下划线的字符串，两边加上反引号
+     */
+    private function addSpecialChar_for_pure_string(&$value)
+    {
+        if (preg_match('/^\w+$/', $value)) {
+            $value = '`' . $value . '`';
         }
         return $value;
     }
