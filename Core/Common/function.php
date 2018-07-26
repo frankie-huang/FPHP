@@ -37,7 +37,7 @@ function I($str)
     switch (strtoupper($type)) {
         case 'GET':
             if ($param != '') {
-                $result_set = $_GET[$param];
+                $result_set = isset($_GET[$param]) ? $_GET[$param] : null;
             } else {
                 $result_set = $_GET;
             }
@@ -48,7 +48,7 @@ function I($str)
                 $_POST = json_decode(file_get_contents('php://input'), true);
             }
             if ($param != '') {
-                $result_set = $_POST[$param];
+                $result_set = isset($_POST[$param]) ? $_POST[$param] : null;
             } else {
                 $result_set = $_POST;
             }
