@@ -101,17 +101,6 @@ function get_client_ip($type = 0, $adv = false)
 }
 
 /**
- * Ajax方式返回数据到客户端
- * 暂时只支持返回json格式数据
- */
-function ajaxReturn($data)
-{
-    header('Content-Type:application/json; charset=utf-8');
-    $data = json_encode($data);
-    exit($data);
-}
-
-/**
  * 浏览器友好的变量输出
  * @param mixed $var 变量
  * @param boolean $echo 是否输出 默认为True 如果为false 则返回输出字符串
@@ -190,7 +179,7 @@ function html_encode($str)
     $s = preg_replace('/</', "&lt;", $s);
     $s = preg_replace('/>/', "&gt;", $s);
     $s = preg_replace('/ /', "&nbsp;", $s);
-    $s = preg_replace('/\'/', "&#39;", $s);
+    $s = preg_replace('/\'/', "&#039;", $s);
     $s = preg_replace('/\"/', "&quot;", $s);
     $s = preg_replace('/\n/', "<br/>", $s);
     return $s;
@@ -208,7 +197,7 @@ function html_decode($str)
     $s = preg_replace('/&lt;/', "<", $str);
     $s = preg_replace('/&gt;/', ">", $s);
     $s = preg_replace('/&nbsp;/', " ", $s);
-    $s = preg_replace('/&#39;/', "\'", $s);
+    $s = preg_replace('/&#039;/', "'", $s);
     $s = preg_replace('/&quot;/', "\"", $s);
     $s = preg_replace('/&amp;/', "&", $s);
     $s = preg_replace('/<br\/>/', "\n", $s);

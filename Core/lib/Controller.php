@@ -45,4 +45,34 @@ abstract class Controller
         //实例化视图类
         $this->view = new View($module, $controller, $action);
     }
+
+    /**
+     * 模板变量赋值
+     * @access public
+     * @param mixed $name
+     * @param mixed $value
+     */
+    public function assign($name, $value = '')
+    {
+        $this->view->assign($name, $value);
+    }
+
+    /**
+     * 渲染页面
+     */
+    public function display()
+    {
+        $this->view->display();
+    }
+
+    /**
+     * Ajax方式返回数据到客户端
+     * 暂时只支持返回json格式数据
+     */
+    public function ajaxReturn($data)
+    {
+        header('Content-Type:application/json; charset=utf-8');
+        $data = json_encode($data);
+        exit($data);
+    }
 }
