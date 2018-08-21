@@ -34,7 +34,7 @@ if (DEBUG) {
 $GLOBALS['config'] = require CORE . "/Conf/config.php";
 
 // 加载函数库
-require CORE . "/Common/function.php";
+require CORE . "/Common/functions.php";
 
 // 加载框架的核心文件
 require CORE . "/FPHP.php";
