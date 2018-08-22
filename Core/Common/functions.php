@@ -44,7 +44,7 @@ function I($str)
             break;
         case 'POST':
             // 如果$_POST中无数据，则从php://input中取
-            if (count($_POST) == 0) {
+            if (empty($_POST)) {
                 $_POST = json_decode(file_get_contents('php://input'), true);
             }
             if ($param != '') {
@@ -135,6 +135,8 @@ function dump($var, $echo = true, $label = null, $strict = true)
     }
 }
 
+/*********************************** 下面函数是ThinkPHP3没有的 *************************************/
+
 /**
  * 打印错误信息
  * @param string $errMsg 详细错误信息
@@ -164,6 +166,19 @@ function printError($errMsg, $debug_mode = true)
     echo '<div style="width:80%;background-color:#ABCDEF;color:black;padding:20px 0px;"><b style="font-size:25px;">
             ' . $errMsg . '
     </div><br/>';
+}
+
+/**
+ * 非法请求，渲染403页面
+ */
+function forbidden($errorMsg)
+{
+    http_response_code(403);
+    header('Content-Type: text/html; charset=UTF-8');
+    print('<title>403 Forbidden</title>');
+    print('<h2 style="text-align: center">403 Forbidden</h2>');
+    print('<p style="text-align: center">' . $errorMsg . '</p>');
+    exit();
 }
 
 /**

@@ -40,6 +40,8 @@ class FPHP
             $PATH_INFO = $_SERVER['PATH_INFO'];
             $count = preg_match('/\/(\w+)\/(\w+)\/(\w+)(.*)/', $PATH_INFO, $match);
             if ($count != 1) {
+                http_response_code(404);
+                header('Content-Type: text/html; charset=UTF-8');
                 printError('URL格式：/模块/控制器/操作，示例：/' . DEFAULT_MODULE . '/Index/index');
                 return false;
             }
@@ -47,8 +49,9 @@ class FPHP
 		$action = $match[3];
         $class = '\App\\' . $match[1] . '\Controller\\' . $match[2];
         if (!class_exists($class)) {
-            printError('无法加载控制器: ' . $match[2]);
             http_response_code(404);
+            header('Content-Type: text/html; charset=UTF-8');
+            printError('无法加载控制器: ' . $match[2]);
             return false;
         }
         if ($match[4] == '' || $match[4] == '/') {
@@ -59,8 +62,9 @@ class FPHP
             $Controller = new $class($match[1], $match[2], $match[3], $params);
         }
         if (!method_exists($Controller, $action)) {
-            printError('非法操作: ' . $action);
             http_response_code(404);
+            header('Content-Type: text/html; charset=UTF-8');
+            printError('非法操作: ' . $action);
             return false;
         }
         $Controller->$action();
