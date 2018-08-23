@@ -35,7 +35,8 @@ class FPHP
             //     'Index',
             //     'index',
             // );
-            header("Location: ./" . DEFAULT_MODULE . "/Index/index"); 
+            header("Location: ./" . DEFAULT_MODULE . "/Index/index");
+            exit;
         } else {
             $PATH_INFO = $_SERVER['PATH_INFO'];
             $count = preg_match('/\/(\w+)\/(\w+)\/(\w+)(.*)/', $PATH_INFO, $match);
